@@ -1,0 +1,35 @@
+Ubuntu 22.04 LTS安装ROS2 (ros-humble-desktop)
+
+
+Ubuntu 22.04 应该安装的ROS2版本为 ros-humble-desktop。
+此外Ubuntu的版本号如果是带有LTS字样（Long Term Support），为长期支持版本，大家安装Ubuntu的时候应优先考虑此版本
+
+2. 配置及安装:https://blog.csdn.net/toopoo/article/details/127178416
+官方安装文档链接：https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html
+
+
+mkdir -p ~/ros2_ws/src
+cd ~/ros2_ws/src
+
+cd /usr/share/ros2-wrapper/
+cp -r xv_ros2_msgs ~/ros2_ws/src
+cp -r xv_sdk_ros2 ~/ros2_ws/src
+
+改配置：/home/ros2_ws/src/xv_sdk_ros2/src
+
+cd ~/ros2_ws
+source /opt/ros/humble/setup.bash
+colcon build  --packages-select xv_ros2_msgs
+colcon build  --packages-select xv_sdk_ros2 --cmake-args -DXVSDK_INCLUDE_DIRS="/usr/include/xvsdk" -DXVSDK_LIBRARIES="/usr/lib/libxvsdk.so"
+
+### Start the node
+To start the node in ROS2, plug in the Xvisio device, then type the following command:
+
+```bash
+source /opt/ros/humble/setup.bash
+cd ~/ros2_ws
+. install/setup.bash
+# To launch with "ros2 run"
+开终端：ros2 launch xv_sdk_ros2 xv_sdk_node_launch.py
+再开终端：ros2 run rviz2 rviz2
+```
